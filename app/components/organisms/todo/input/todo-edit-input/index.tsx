@@ -82,7 +82,14 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
       description: '',
       priority: LOW,
       section_id: null,
-      mode: VIEW
+      mode: VIEW,
+      created_at: null,
+      updated_at: null,
+      end_at: null,
+      project_id: null,
+      start_at: null,
+      status: null,
+      user_id: null
     },
     validate: {
       title: value => {

@@ -67,7 +67,14 @@ const SectionItem = (_props: SectionItemProps) => {
               description: '',
               priority: LOW,
               section_id: data?.id || null,
-              mode: EDIT
+              mode: EDIT,
+              created_at: null,
+              end_at: null,
+              project_id: null,
+              start_at: null,
+              status: null,
+              updated_at: null,
+              user_id: null
             }}
             isFocusTrap={true}
             onEdit={handleEditTodo}

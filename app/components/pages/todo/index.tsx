@@ -11,17 +11,12 @@ import { DEFAULT_DAYJS_FORMAT } from '~/constants/date'
 import { produce } from 'immer'
 import { useWindowEvent } from '@mantine/hooks'
 import type { TodoItemProps } from '~/components/organisms/todo/item/todo-item'
+import type { Tables } from '~/libs/supabase/types/database.types'
 
 const { VITE_APP_NAME } = import.meta.env
 
-export interface TodoType {
-  id: string
-  title: string | null
-  description: string | null
-  priority: string | null
-  section_id?: string | null
+export interface TodoType extends Tables<'todos'> {
   mode?: string | null
-  status?: string | null
 }
 
 export type HandleEditTodoType = ({
@@ -145,7 +140,9 @@ function TodoPage() {
     const isConfirm = window.confirm('정말 삭제하시겠습니까?')
     if (!isConfirm) return
 
-    await supabaseClient?.from('todos')?.delete()?.eq('id', id)
+    if (id) {
+      await supabaseClient?.from('todos')?.delete()?.eq('id', id)
+    }
 
     getData()
   }
@@ -194,7 +191,7 @@ function TodoPage() {
                 ...todo,
                 mode: VIEW
               }
-            })
+            }) as TodoType[]
           }
         })
       )

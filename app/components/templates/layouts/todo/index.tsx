@@ -75,7 +75,7 @@ function TodoLayout({ loaderData }: Route.ComponentProps) {
                 <Menu.Target>
                   <HoverButton>
                     <Avatar
-                      name={loaderData?.profile?.username}
+                      name={loaderData?.profile?.username || ''}
                       color="initials"
                       size={'sm'}
                     />
