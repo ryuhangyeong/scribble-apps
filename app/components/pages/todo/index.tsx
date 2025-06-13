@@ -174,10 +174,12 @@ function TodoPage() {
               description,
               priority,
               section_id,
-              status
+              status,
+              created_at
             )
           `
         )
+        .order('created_at', { foreignTable: 'todos', ascending: true }) // todos 안의 정렬 기준
         .gte('start_at', todayRange?.startAt)
         .lte('end_at', todayRange?.endAt)
 
