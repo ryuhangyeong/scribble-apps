@@ -8,9 +8,13 @@ import {
   ScrollRestoration
 } from 'react-router'
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
-// import { Analytics } from '@vercel/analytics/next'
 
 import MainProvider from '~/providers'
+
+const { VITE_APP_SITE_URL } = import.meta.env
+
+// @TESTING
+console.log(VITE_APP_SITE_URL)
 
 import '~/styles/index.css'
 
@@ -47,7 +51,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {/* <Analytics /> */}
         <MainProvider>{children}</MainProvider>
         <ScrollRestoration />
         <Scripts />

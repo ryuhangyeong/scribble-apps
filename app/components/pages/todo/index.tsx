@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { isNotEmpty, useForm } from '@mantine/form'
 
+// @TESTING
+console.log('vercel 분리 배포 확인')
+
 import { useParams } from 'react-router'
 import TodoTemplate from '~/components/templates/todo'
 import { EDIT, LOW, VIEW } from '~/constants/todo'
@@ -179,7 +182,7 @@ function TodoPage() {
             )
           `
         )
-        .order('created_at', { foreignTable: 'todos', ascending: true }) // todos 안의 정렬 기준
+        .order('created_at', { foreignTable: 'todos', ascending: true })
         .gte('start_at', todayRange?.startAt)
         .lte('end_at', todayRange?.endAt)
 
