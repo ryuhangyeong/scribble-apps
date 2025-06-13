@@ -1,9 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { isNotEmpty, useForm } from '@mantine/form'
 
-// @TESTING
-console.log('vercel 분리 배포 확인')
-
 import { useParams } from 'react-router'
 import TodoTemplate from '~/components/templates/todo'
 import { EDIT, LOW, VIEW } from '~/constants/todo'

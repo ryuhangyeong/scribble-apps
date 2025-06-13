@@ -2,7 +2,7 @@ import React from 'react'
 import { Divider, UnstyledButton, useProps } from '@mantine/core'
 import { GoPlus } from 'react-icons/go'
 import TodoEditInput from '~/components/organisms/todo/input/todo-edit-input'
-import { CREATE_TODO_LABEL, EDIT, LOW, VIEW } from '~/constants/todo'
+import { CREATE_TODO_LABEL, EDIT, VIEW } from '~/constants/todo'
 import type {
   HandleCreateTodoType,
   HandleEditTodoType,
@@ -61,21 +61,6 @@ const SectionItem = (_props: SectionItemProps) => {
       {data?.mode === EDIT && (
         <div>
           <TodoEditInput
-            data={{
-              id: '',
-              title: '',
-              description: '',
-              priority: LOW,
-              section_id: data?.id || null,
-              mode: EDIT,
-              created_at: null,
-              end_at: null,
-              project_id: null,
-              start_at: null,
-              status: null,
-              updated_at: null,
-              user_id: null
-            }}
             isFocusTrap={true}
             onEdit={handleEditTodo}
             onCreate={handleCreateTodo}
