@@ -12,182 +12,157 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
-          created_at: string
+          created_at: string | null
           id: string
-          point: number | null
           updated_at: string | null
           user_id: string | null
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
-          created_at?: string
+          created_at?: string | null
           id?: string
-          point?: number | null
           updated_at?: string | null
           user_id?: string | null
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
-          created_at?: string
+          created_at?: string | null
           id?: string
-          point?: number | null
           updated_at?: string | null
           user_id?: string | null
           username?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: 'profiles_user_id_fkey1'
-            columns: ['user_id']
-            isOneToOne: true
-            referencedRelation: 'project_users'
-            referencedColumns: ['user_id']
-          }
-        ]
-      }
-      project_users: {
-        Row: {
-          created_at: string
-          id: string
-          project_id: string | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          project_id?: string | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          project_id?: string | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'project_users_project_id_fkey'
-            columns: ['project_id']
-            isOneToOne: true
-            referencedRelation: 'projects'
-            referencedColumns: ['id']
-          }
-        ]
+        Relationships: []
       }
       projects: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
+          mode: string | null
           title: string | null
           type: string | null
-          updated_at: string | null
-          view: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          title?: string | null
-          type?: string | null
-          updated_at?: string | null
-          view?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          title?: string | null
-          type?: string | null
-          updated_at?: string | null
-          view?: string | null
-        }
-        Relationships: []
-      }
-      todo_users: {
-        Row: {
-          created_at: string
-          id: string
-          todo_id: string | null
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
-          todo_id?: string | null
+          mode?: string | null
+          title?: string | null
+          type?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
-          todo_id?: string | null
+          mode?: string | null
+          title?: string | null
+          type?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      sections: {
+        Row: {
+          created_at: string | null
+          end_at: string | null
+          id: string
+          project_id: string | null
+          start_at: string | null
+          title: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          end_at?: string | null
+          id?: string
+          project_id?: string | null
+          start_at?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          end_at?: string | null
+          id?: string
+          project_id?: string | null
+          start_at?: string | null
+          title?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'todo_users_todo_id_fkey'
-            columns: ['todo_id']
+            foreignKeyName: 'sections_project_id_fkey'
+            columns: ['project_id']
             isOneToOne: false
-            referencedRelation: 'todos'
+            referencedRelation: 'projects'
             referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'todo_users_user_id_fkey1'
-            columns: ['user_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['user_id']
           }
         ]
       }
       todos: {
         Row: {
-          created_at: string
-          end_date: string | null
+          created_at: string | null
+          description: string | null
+          end_at: string | null
           id: string
-          memo: string | null
-          priority: number | null
+          priority: string | null
           project_id: string | null
-          start_date: string | null
+          section_id: string | null
+          start_at: string | null
           status: string | null
           title: string | null
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
-          created_at?: string
-          end_date?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_at?: string | null
           id?: string
-          memo?: string | null
-          priority?: number | null
+          priority?: string | null
           project_id?: string | null
-          start_date?: string | null
+          section_id?: string | null
+          start_at?: string | null
           status?: string | null
           title?: string | null
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
-          created_at?: string
-          end_date?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_at?: string | null
           id?: string
-          memo?: string | null
-          priority?: number | null
+          priority?: string | null
           project_id?: string | null
-          start_date?: string | null
+          section_id?: string | null
+          start_at?: string | null
           status?: string | null
           title?: string | null
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'todos_project_id_fkey'
+            foreignKeyName: 'tasks_project_id_fkey'
             columns: ['project_id']
             isOneToOne: false
             referencedRelation: 'projects'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'tasks_section_id_fkey'
+            columns: ['section_id']
+            isOneToOne: false
+            referencedRelation: 'sections'
             referencedColumns: ['id']
           }
         ]
