@@ -1,0 +1,9 @@
+.root {
+  &:global(.active) {
+    background-color: var(--mantine-color-gray-1);
+  }
+
+  &:global(.pending) {
+    opacity: 0.6;
+  }
+}
