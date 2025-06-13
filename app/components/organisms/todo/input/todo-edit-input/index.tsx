@@ -32,7 +32,7 @@ import type {
 } from '~/components/pages/todo'
 
 export interface TodoEditInputProps {
-  data: TodoType
+  data?: TodoType
   createLabel?: string
   mode?: typeof CREATE | typeof EDIT
   isShowCancelButton?: boolean
@@ -231,7 +231,21 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
                         onEdit?.({
                           id: data?.id || '',
                           todo: {
-                            ...data,
+                            ...(data || {
+                              id: '',
+                              title: '',
+                              description: '',
+                              priority: LOW,
+                              section_id: null,
+                              mode: VIEW,
+                              created_at: null,
+                              end_at: null,
+                              project_id: null,
+                              start_at: null,
+                              status: null,
+                              updated_at: null,
+                              user_id: null
+                            }),
                             mode: VIEW
                           }
                         })
