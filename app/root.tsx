@@ -11,11 +11,6 @@ import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core'
 
 import MainProvider from '~/providers'
 
-const { VITE_APP_SITE_URL } = import.meta.env
-
-// @TESTING
-console.log(VITE_APP_SITE_URL)
-
 import '~/styles/index.css'
 
 import type { Route } from './+types/root'
