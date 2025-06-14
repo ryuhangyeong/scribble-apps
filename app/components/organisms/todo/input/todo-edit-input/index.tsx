@@ -137,8 +137,8 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
     <FocusTrap active={isFocusTrap}>
       <form
         onSubmit={form.onSubmit(values => {
-          console.log(values)
           onCreate?.({ todo: values })
+          form?.reset()
         })}
         ref={ref}>
         <Paper

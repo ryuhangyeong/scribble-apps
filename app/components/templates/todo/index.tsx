@@ -26,8 +26,10 @@ import type {
   TodoType
 } from '~/components/pages/todo'
 import dayjs from 'dayjs'
-import type { UseFormReturnType } from '@mantine/form'
 import SectionItem from '~/components/organisms/section/item/section-item'
+import TodoEditInput from '~/components/organisms/todo/input/todo-edit-input'
+
+import type { UseFormReturnType } from '@mantine/form'
 import type { TodoItemProps } from '~/components/organisms/todo/item/todo-item'
 
 export interface TodoTemplateProps {
@@ -70,7 +72,51 @@ function TodoTemplate(_props: TodoTemplateProps) {
 
   return (
     <Container size={'md'}>
-      <div className="flex justify-between pt-4">
+      <div className="pt-4">
+        <TodoEditInput
+          isFocusTrap={true}
+          onCreate={onCreate}
+        />
+      </div>
+
+      <div className="mt-4">
+        <ul>
+          {(data || [])?.slice(0, 1).map(section => {
+            return (
+              <li key={section?.id}>
+                <div>
+                  {section?.title && (
+                    <SectionItem
+                      data={section}
+                      onCreateTodo={onCreate}
+                      onEditSection={onEditSection}
+                    />
+                  )}
+
+                  {(section?.todos || [])?.length > 0 && (
+                    <ul>
+                      {(section?.todos || [])?.map(todo => {
+                        return (
+                          <TodoItemWrapper
+                            data={todo}
+                            key={todo?.id}
+                            onEdit={onEdit}
+                            onCreate={onCreate}
+                            onDelete={onDelete}
+                            onChangeTodoStatus={onChangeTodoStatus}
+                          />
+                        )
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+      <div className="flex justify-between pt-8">
         <div />
 
         <div>
@@ -104,7 +150,7 @@ function TodoTemplate(_props: TodoTemplateProps) {
 
       <div className="mt-4">
         <ul>
-          {(data || []).map(section => {
+          {(data || []).slice(1).map(section => {
             return (
               <li key={section?.id}>
                 <div>
@@ -137,7 +183,6 @@ function TodoTemplate(_props: TodoTemplateProps) {
             )
           })}
         </ul>
-
         {sectionForm?.values?.mode === VIEW && (
           <Divider
             label={
@@ -161,7 +206,6 @@ function TodoTemplate(_props: TodoTemplateProps) {
             color={'var(--mantine-color-gray-3)'}
           />
         )}
-
         {sectionForm?.values?.mode === EDIT && (
           <div className="my-8">
             <form onSubmit={sectionForm?.onSubmit(() => onCreateSection?.())}>
