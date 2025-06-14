@@ -4,7 +4,7 @@ import { GoPlus } from 'react-icons/go'
 import TodoEditInput, {
   INIT_TODO_DATA
 } from '~/components/organisms/todo/input/todo-edit-input'
-import { CREATE_TODO_LABEL, EDIT, VIEW } from '~/constants/todo'
+import { CREATE_TODO_LABEL, EDIT, NOT_SECTION, VIEW } from '~/constants/todo'
 import type {
   HandleCreateTodoType,
   HandleEditTodoType,
@@ -74,7 +74,7 @@ const SectionItem = (_props: SectionItemProps) => {
         </div>
       )}
 
-      {data?.mode === VIEW && (
+      {data?.mode === VIEW && data?.id !== NOT_SECTION && (
         <div>
           <UnstyledButton
             size={'xl'}
