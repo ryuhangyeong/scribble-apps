@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { isNotEmpty, useForm } from '@mantine/form'
 
 import { useParams } from 'react-router'
-import TodoTemplate from '~/components/templates/todo'
+import TodoTemplate, {
+  type TodoTemplateProps
+} from '~/components/templates/todo'
 import { EDIT, LOW, NOT_SECTION, VIEW } from '~/constants/todo'
 import supabaseClient from '~/libs/supabase/client'
 import { useAuthState } from '~/providers/auth'
@@ -279,6 +281,21 @@ function TodoPage() {
     }
   }
 
+  const handleDragEnd: TodoTemplateProps['onDragEnd'] = ({
+    destination,
+    source
+  }) => {
+    // 변경사항이 없는 경우 무시
+    if (
+      destination?.droppableId === source?.droppableId &&
+      destination?.index === source?.index
+    )
+      return
+
+    console.log('destination', destination)
+    console.log('source', source)
+  }
+
   useEffect(() => {
     getData()
   }, [todayRange.endAt, todayRange.startAt, form.values.today, getData])
@@ -312,6 +329,7 @@ function TodoPage() {
       onDelete={handleDeleteTodo}
       onCreateSection={handleCreateSection}
       onChangeTodoStatus={handleChangeTodoStatus}
+      onDragEnd={handleDragEnd}
     />
   )
 }
