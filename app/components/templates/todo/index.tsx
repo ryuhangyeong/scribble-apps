@@ -79,42 +79,44 @@ function TodoTemplate(_props: TodoTemplateProps) {
         />
       </div>
 
-      <div className="mt-4">
-        <ul>
-          {(data || [])?.slice(0, 1).map(section => {
-            return (
-              <li key={section?.id}>
-                <div>
-                  {section?.title && (
-                    <SectionItem
-                      data={section}
-                      onCreateTodo={onCreate}
-                      onEditSection={onEditSection}
-                    />
-                  )}
+      {(data || [])?.slice(0, 1)?.[0]?.todos?.length > 0 && (
+        <div className="mt-4">
+          <ul>
+            {(data || [])?.slice(0, 1).map(section => {
+              return (
+                <li key={section?.id}>
+                  <div>
+                    {section?.title && (
+                      <SectionItem
+                        data={section}
+                        onCreateTodo={onCreate}
+                        onEditSection={onEditSection}
+                      />
+                    )}
 
-                  {(section?.todos || [])?.length > 0 && (
-                    <ul>
-                      {(section?.todos || [])?.map(todo => {
-                        return (
-                          <TodoItemWrapper
-                            data={todo}
-                            key={todo?.id}
-                            onEdit={onEdit}
-                            onCreate={onCreate}
-                            onDelete={onDelete}
-                            onChangeTodoStatus={onChangeTodoStatus}
-                          />
-                        )
-                      })}
-                    </ul>
-                  )}
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+                    {(section?.todos || [])?.length > 0 && (
+                      <ul>
+                        {(section?.todos || [])?.map(todo => {
+                          return (
+                            <TodoItemWrapper
+                              data={todo}
+                              key={todo?.id}
+                              onEdit={onEdit}
+                              onCreate={onCreate}
+                              onDelete={onDelete}
+                              onChangeTodoStatus={onChangeTodoStatus}
+                            />
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
 
       <div className="flex justify-between pt-8">
         <div />
