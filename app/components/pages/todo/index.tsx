@@ -3,7 +3,7 @@ import { isNotEmpty, useForm } from '@mantine/form'
 
 import { useParams } from 'react-router'
 import TodoTemplate from '~/components/templates/todo'
-import { EDIT, LOW, VIEW } from '~/constants/todo'
+import { EDIT, LOW, NOT_SECTION, VIEW } from '~/constants/todo'
 import supabaseClient from '~/libs/supabase/client'
 import { useAuthState } from '~/providers/auth'
 import dayjs from 'dayjs'
@@ -111,6 +111,7 @@ function TodoPage() {
     if (!authState?.data?.session?.user?.id || !params?.projectId) return
 
     if (!todo?.id) {
+      // @MEMO section_id가 있으면 오늘 날짜로 시작일과 종료일을 설정
       await supabaseClient.from('todos').insert({
         project_id: params?.projectId,
         user_id: authState?.data?.session?.user?.id,
@@ -118,8 +119,8 @@ function TodoPage() {
         description: todo?.description || null,
         priority: todo?.priority || LOW,
         section_id: todo?.section_id || null,
-        start_at: todayRange?.startAt,
-        end_at: todayRange?.endAt,
+        start_at: todo?.section_id ? todayRange?.startAt : null,
+        end_at: todo?.section_id ? todayRange?.endAt : null,
         status: 'todo'
       })
     } else {
@@ -162,6 +163,27 @@ function TodoPage() {
 
   const getData = useCallback(async () => {
     try {
+      // @MEMO 섹션 및 날짜 지정하지 않은 할 일 데이터 가져오기
+      const { data: notSectionTodoData } = await supabaseClient
+        .from('todos')
+        .select(
+          `
+            id,
+            title,
+            description,
+            priority,
+            section_id,
+            status,
+            created_at,
+            start_at,
+            end_at
+          `
+        )
+        .is('section_id', null)
+        .is('start_at', null)
+        .is('end_at', null)
+        .order('created_at', { ascending: true })
+
       const { data: sectionData } = await supabaseClient
         .from('sections')
         .select(
@@ -175,7 +197,9 @@ function TodoPage() {
               priority,
               section_id,
               status,
-              created_at
+              created_at,
+              start_at,
+              end_at
             )
           `
         )
@@ -183,20 +207,33 @@ function TodoPage() {
         .gte('start_at', todayRange?.startAt)
         .lte('end_at', todayRange?.endAt)
 
-      setData(
-        (sectionData || [])?.map(section => {
-          return {
-            ...section,
-            mode: VIEW,
-            todos: (section?.todos || [])?.map(todo => {
-              return {
-                ...todo,
-                mode: VIEW
-              }
-            }) as TodoType[]
-          }
-        })
-      )
+      const data = [
+        {
+          id: NOT_SECTION,
+          title: '날짜 미지정 할 일',
+          mode: VIEW,
+          todos: (notSectionTodoData || [])?.map(todo => {
+            return {
+              ...todo,
+              mode: VIEW
+            }
+          }) as TodoType[]
+        },
+        ...(sectionData || [])
+      ]?.map(section => {
+        return {
+          ...section,
+          mode: VIEW,
+          todos: (section?.todos || [])?.map(todo => {
+            return {
+              ...todo,
+              mode: VIEW
+            }
+          }) as TodoType[]
+        }
+      })
+
+      setData(data)
     } catch {
       console.log('error')
     }

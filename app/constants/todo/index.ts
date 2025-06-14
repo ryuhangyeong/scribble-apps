@@ -5,6 +5,8 @@ export const LOW = 'low'
 export const MEDIUM = 'medium'
 export const HIGH = 'high'
 
+export const NOT_SECTION = 'not_section'
+
 export const CREATE = 'create'
 
 export const CREATE_TODO_LABEL = '할일 추가'
