@@ -176,7 +176,8 @@ function TodoPage() {
             status,
             created_at,
             start_at,
-            end_at
+            end_at,
+            order
           `
         )
         .is('section_id', null)
@@ -199,7 +200,8 @@ function TodoPage() {
               status,
               created_at,
               start_at,
-              end_at
+              end_at,
+              order
             )
           `
         )

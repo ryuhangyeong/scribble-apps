@@ -113,6 +113,7 @@ export type Database = {
           description: string | null
           end_at: string | null
           id: string
+          order: number | null
           priority: string | null
           project_id: string | null
           section_id: string | null
@@ -127,6 +128,7 @@ export type Database = {
           description?: string | null
           end_at?: string | null
           id?: string
+          order?: number | null
           priority?: string | null
           project_id?: string | null
           section_id?: string | null
@@ -141,6 +143,7 @@ export type Database = {
           description?: string | null
           end_at?: string | null
           id?: string
+          order?: number | null
           priority?: string | null
           project_id?: string | null
           section_id?: string | null
