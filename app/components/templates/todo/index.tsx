@@ -75,6 +75,7 @@ function TodoTemplate(_props: TodoTemplateProps) {
       <div className="pt-4">
         <TodoEditInput
           isFocusTrap={true}
+          isShowCancelButton={false}
           onCreate={onCreate}
         />
       </div>
