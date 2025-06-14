@@ -31,6 +31,22 @@ import type {
   TodoType
 } from '~/components/pages/todo'
 
+export const INIT_TODO_DATA = {
+  id: '',
+  title: '',
+  description: '',
+  priority: LOW,
+  section_id: null,
+  mode: VIEW,
+  created_at: null,
+  end_at: null,
+  project_id: null,
+  start_at: null,
+  status: null,
+  updated_at: null,
+  user_id: null
+}
+
 export interface TodoEditInputProps {
   data?: TodoType
   createLabel?: string
@@ -121,6 +137,7 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
     <FocusTrap active={isFocusTrap}>
       <form
         onSubmit={form.onSubmit(values => {
+          console.log(values)
           onCreate?.({ todo: values })
         })}
         ref={ref}>
@@ -231,21 +248,7 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
                         onEdit?.({
                           id: data?.id || '',
                           todo: {
-                            ...(data || {
-                              id: '',
-                              title: '',
-                              description: '',
-                              priority: LOW,
-                              section_id: null,
-                              mode: VIEW,
-                              created_at: null,
-                              end_at: null,
-                              project_id: null,
-                              start_at: null,
-                              status: null,
-                              updated_at: null,
-                              user_id: null
-                            }),
+                            ...(data || INIT_TODO_DATA),
                             mode: VIEW
                           }
                         })
