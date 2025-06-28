@@ -31,7 +31,7 @@ const TodoItemWrapper = (_props: TodoItemWrapperProps) => {
   )
 
   return (
-    <li className="border-0 border-b-1 border-solid border-[var(--mantine-color-gray-3)] py-4">
+    <div className="w-full">
       {data?.mode === EDIT && (
         <TodoEditInput
           data={data}
@@ -57,7 +57,7 @@ const TodoItemWrapper = (_props: TodoItemWrapperProps) => {
       )}
 
       {/* <TodoItemSkeleton /> */}
-    </li>
+    </div>
   )
 }
 

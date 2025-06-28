@@ -44,7 +44,8 @@ export const INIT_TODO_DATA = {
   start_at: null,
   status: null,
   updated_at: null,
-  user_id: null
+  user_id: null,
+  order: null
 }
 
 export interface TodoEditInputProps {
@@ -92,21 +93,7 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
   } = useProps('TodoEditInput', defaultProps, _props)
 
   const form = useForm<TodoType>({
-    initialValues: {
-      id: '',
-      title: '',
-      description: '',
-      priority: LOW,
-      section_id: null,
-      mode: VIEW,
-      created_at: null,
-      updated_at: null,
-      end_at: null,
-      project_id: null,
-      start_at: null,
-      status: null,
-      user_id: null
-    },
+    initialValues: INIT_TODO_DATA,
     validate: {
       title: value => {
         if (isNotEmpty()(value)) {
