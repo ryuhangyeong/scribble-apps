@@ -367,7 +367,7 @@ export const useTodo = () => {
         UPDATED_SAME_NOT_SECTION ||
         UPDATE_NOT_SECTION_TO_SECTION
       ) {
-        let order: number | null = null
+        let order: number = DEFAULT_ORDER
 
         const { destinationSection, sourceTodo } = getDragData(data || [])
 
