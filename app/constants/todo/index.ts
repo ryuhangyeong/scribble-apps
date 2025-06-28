@@ -14,3 +14,5 @@ export const CREATE_TODO_LABEL = '할일 추가'
 export const LOW_LABEL = '낮음'
 export const MEDIUM_LABEL = '중간'
 export const HIGH_LABEL = '높음'
+
+export const DEFAULT_ORDER = 1000
