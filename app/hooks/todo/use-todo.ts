@@ -13,11 +13,13 @@ import type {
   TodoPageFormValues,
   TodoType
 } from '~/components/pages/todo'
-import type { TodoTemplateProps } from '~/components/templates/todo'
 import { DEFAULT_DAYJS_FORMAT } from '~/constants/date'
 import { DEFAULT_ORDER, EDIT, LOW, NOT_SECTION, VIEW } from '~/constants/todo'
 import supabaseClient from '~/libs/supabase/client'
 import { useAuthState } from '~/providers/auth'
+import { DEFAULT_ERROR_MESSAGE } from '~/constants'
+
+import type { TodoTemplateProps } from '~/components/templates/todo'
 import type { Tables } from '~/libs/supabase/types/database.types'
 
 export const useTodo = () => {
@@ -233,6 +235,7 @@ export const useTodo = () => {
 
       setData(data)
     } catch (error) {
+      alert(DEFAULT_ERROR_MESSAGE)
       console.log(error)
     }
   }, [todayRange?.endAt, todayRange?.startAt])
@@ -252,6 +255,7 @@ export const useTodo = () => {
       sectionForm.reset()
       getData()
     } catch (error) {
+      alert(DEFAULT_ERROR_MESSAGE)
       console.log(error)
     }
   }
@@ -271,6 +275,7 @@ export const useTodo = () => {
         .eq('id', id)
       getData()
     } catch (error) {
+      alert(DEFAULT_ERROR_MESSAGE)
       console.log(error)
     }
   }
@@ -383,7 +388,8 @@ export const useTodo = () => {
         // destination.index가 todos?.length - 1인 경우
         if (
           destination?.index ===
-          (destinationSection?.todos || [])?.length - 1
+          (destinationSection?.todos || [])?.length -
+            (UPDATE_NOT_SECTION_TO_SECTION ? 0 : 1)
         ) {
           const currentTodo =
             destinationSection?.todos?.[destination?.index - 1]
@@ -396,7 +402,9 @@ export const useTodo = () => {
         // destination.index가 중간인 경우
         if (
           destination?.index > 0 &&
-          destination?.index < (destinationSection?.todos || [])?.length - 1
+          destination?.index <
+            (destinationSection?.todos || [])?.length -
+              (UPDATE_NOT_SECTION_TO_SECTION ? 0 : 1)
         ) {
           let todo1 = destinationSection?.todos?.[destination.index - 1]
           let todo2 = destinationSection?.todos?.[destination.index]
@@ -437,6 +445,7 @@ export const useTodo = () => {
         }
       }
     } catch (error) {
+      alert(DEFAULT_ERROR_MESSAGE)
       console.log(error)
     }
   }
