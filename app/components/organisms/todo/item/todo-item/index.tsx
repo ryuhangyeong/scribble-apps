@@ -6,6 +6,7 @@ import { FaRegTrashCan } from 'react-icons/fa6'
 import type {
   HandleDeleteTodoType,
   HandleEditTodoType,
+  HandleToggleTodoModalType,
   TodoType
 } from '~/components/pages/todo'
 import { EDIT, LOW } from '~/constants/todo'
@@ -25,16 +26,15 @@ export interface TodoItemProps {
     checked: boolean
     id: string
   }) => void
+
+  onToggleModal?: HandleToggleTodoModalType
 }
 
 const defaultProps: Partial<TodoItemProps> = {}
 
 const TodoItem = (_props: TodoItemProps) => {
-  const { data, onEdit, onDelete, onChangeTodoStatus } = useProps(
-    'TodoItem',
-    defaultProps,
-    _props
-  )
+  const { data, onEdit, onDelete, onChangeTodoStatus, onToggleModal } =
+    useProps('TodoItem', defaultProps, _props)
 
   return (
     <TodoItemLayoutSection
@@ -58,8 +58,17 @@ const TodoItem = (_props: TodoItemProps) => {
           checked={data?.status === 'done'}
         />
       }
-      titleSection={<p className="text-md">{data?.title}</p>}
-      descriptionSection={<p className="text-xs">{data?.description}</p>}
+      titleSection={
+        <div
+          onClick={() =>
+            onToggleModal?.({
+              todo: data,
+              opened: true
+            })
+          }>
+          <p className="text-md">{data?.title}</p>
+        </div>
+      }
       actionSection={
         <>
           <div>
