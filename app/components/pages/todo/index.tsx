@@ -21,6 +21,20 @@ export type HandleEditTodoType = ({
 }) => void
 export type HandleCreateTodoType = ({ todo }: { todo: TodoType }) => void
 export type HandleDeleteTodoType = ({ id }: { id: string | null }) => void
+export type HandleChangeTodoStatus = ({
+  checked,
+  id
+}: {
+  checked: boolean
+  id: string
+}) => void
+export type HandleToggleTodoModalType = ({
+  todo,
+  opened
+}: {
+  todo: TodoType
+  opened?: boolean
+}) => void
 
 export async function clientLoader() {}
 
@@ -45,7 +59,9 @@ function TodoPage() {
     handleEditSection,
     handleCreateSection,
     handleChangeTodoStatus,
-    handleDragEnd
+    handleDragEnd,
+    handleToggleModal,
+    handleUpdateTodo
   } = useTodo()
 
   return (
@@ -60,6 +76,8 @@ function TodoPage() {
       onCreateSection={handleCreateSection}
       onChangeTodoStatus={handleChangeTodoStatus}
       onDragEnd={handleDragEnd}
+      onToggleModal={handleToggleModal}
+      onUpdateTodo={handleUpdateTodo}
     />
   )
 }
