@@ -5,7 +5,6 @@ import {
   FocusTrap,
   Paper,
   Select,
-  Textarea,
   TextInput,
   useProps,
   type PaperProps
@@ -146,21 +145,6 @@ const TodoEditInput = (_props: TodoEditInputProps) => {
                   }}
                   autoFocus
                   {...form.getInputProps('title')}
-                />
-              </div>
-              <div>
-                <Textarea
-                  variant="unstyled"
-                  size="xs"
-                  placeholder="설명"
-                  autosize
-                  styles={{
-                    input: {
-                      '--input-bd-focus': '#fff',
-                      '--input-bd': '#fff'
-                    }
-                  }}
-                  {...form.getInputProps('description')}
                 />
               </div>
             </div>

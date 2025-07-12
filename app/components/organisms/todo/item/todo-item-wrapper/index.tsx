@@ -1,13 +1,15 @@
 import React from 'react'
 import { useProps } from '@mantine/core'
 import TodoEditInput from '../../input/todo-edit-input'
-import TodoItem, { type TodoItemProps } from '../todo-item'
+import TodoItem from '../todo-item'
 import { EDIT, VIEW } from '~/constants/todo'
 
 import type {
+  HandleChangeTodoStatus,
   HandleCreateTodoType,
   HandleDeleteTodoType,
   HandleEditTodoType,
+  HandleToggleTodoModalType,
   TodoType
 } from '~/components/pages/todo'
 // import TodoItemSkeleton from '../todo-item-skeleton'
@@ -18,17 +20,21 @@ export interface TodoItemWrapperProps {
   onEdit?: HandleEditTodoType
   onCreate?: HandleCreateTodoType
   onDelete?: HandleDeleteTodoType
-  onChangeTodoStatus?: TodoItemProps['onChangeTodoStatus']
+  onChangeTodoStatus?: HandleChangeTodoStatus
+  onToggleModal?: HandleToggleTodoModalType
 }
 
 const defaultProps: Partial<TodoItemWrapperProps> = {}
 
 const TodoItemWrapper = (_props: TodoItemWrapperProps) => {
-  const { data, onEdit, onCreate, onDelete, onChangeTodoStatus } = useProps(
-    'TodoItemWrapper',
-    defaultProps,
-    _props
-  )
+  const {
+    data,
+    onEdit,
+    onCreate,
+    onDelete,
+    onChangeTodoStatus,
+    onToggleModal
+  } = useProps('TodoItemWrapper', defaultProps, _props)
 
   return (
     <div className="w-full">
@@ -53,6 +59,7 @@ const TodoItemWrapper = (_props: TodoItemWrapperProps) => {
           onEdit={onEdit}
           onDelete={onDelete}
           onChangeTodoStatus={onChangeTodoStatus}
+          onToggleModal={onToggleModal}
         />
       )}
 

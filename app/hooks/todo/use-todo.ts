@@ -9,6 +9,7 @@ import type {
   HandleCreateTodoType,
   HandleDeleteTodoType,
   HandleEditTodoType,
+  HandleToggleTodoModalType,
   SectionFormValues,
   TodoPageFormValues,
   TodoType
@@ -31,7 +32,11 @@ export const useTodo = () => {
       id: string
       title: string | null
       mode: string | null
-      todos: TodoType[]
+      todos: (TodoType & {
+        modal?: {
+          opened?: boolean
+        }
+      })[]
     }[]
   >([])
 
@@ -227,9 +232,16 @@ export const useTodo = () => {
           todos: (section?.todos || [])?.map(todo => {
             return {
               ...todo,
-              mode: VIEW
+              mode: VIEW,
+              modal: {
+                opened: false
+              }
             }
-          }) as TodoType[]
+          }) as (TodoType & {
+            modal?: {
+              opened?: boolean
+            }
+          })[]
         }
       })
 
@@ -450,6 +462,59 @@ export const useTodo = () => {
     }
   }
 
+  const handleToggleModal: HandleToggleTodoModalType = ({ todo, opened }) => {
+    setData(
+      produce(draft => {
+        const allTodo = draft?.reduce(
+          (acc, section) => {
+            ;(section?.todos || [])?.forEach(t => {
+              acc.push(t)
+            })
+            return acc
+          },
+          [] as (TodoType & {
+            modal?: {
+              opened?: boolean
+            }
+          })[]
+        )
+
+        const targetTodo = allTodo?.find(t => t?.id === todo?.id)
+        if (!targetTodo) return
+
+        targetTodo.modal = {
+          opened: opened || false
+        }
+      })
+    )
+  }
+
+  const handleUpdateTodo = ({ todo }: { todo: TodoType }) => {
+    setData(
+      produce(draft => {
+        const allTodo = draft?.reduce(
+          (acc, section) => {
+            ;(section?.todos || [])?.forEach(t => {
+              acc.push(t)
+            })
+            return acc
+          },
+          [] as (TodoType & {
+            modal?: {
+              opened?: boolean
+            }
+          })[]
+        )
+
+        const targetTodo = allTodo?.find(t => t?.id === todo?.id)
+        if (!targetTodo) return
+
+        targetTodo.title = todo?.title
+        targetTodo.description = todo?.description
+      })
+    )
+  }
+
   useEffect(() => {
     getData()
   }, [todayRange.endAt, todayRange.startAt, form.values.today, getData])
@@ -485,6 +550,8 @@ export const useTodo = () => {
     handleEditSection,
     handleCreateSection,
     handleChangeTodoStatus,
-    handleDragEnd
+    handleDragEnd,
+    handleToggleModal,
+    handleUpdateTodo
   }
 }

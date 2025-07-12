@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Divider,
+  Modal,
   Popover,
   TextInput,
   UnstyledButton,
@@ -25,9 +26,11 @@ import HoverButton from '~/components/atoms/button/hover-button'
 import TodoItemWrapper from '~/components/organisms/todo/item/todo-item-wrapper'
 import { EDIT, VIEW } from '~/constants/todo'
 import type {
+  HandleChangeTodoStatus,
   HandleCreateTodoType,
   HandleDeleteTodoType,
   HandleEditTodoType,
+  HandleToggleTodoModalType,
   SectionFormValues,
   TodoPageFormValues,
   TodoType
@@ -37,7 +40,10 @@ import SectionItem from '~/components/organisms/section/item/section-item'
 import TodoEditInput from '~/components/organisms/todo/input/todo-edit-input'
 
 import type { UseFormReturnType } from '@mantine/form'
-import type { TodoItemProps } from '~/components/organisms/todo/item/todo-item'
+import {
+  TodoDetailModal,
+  TodoDetailModalDefaultProps
+} from '../modal/todo/detail'
 
 export interface TodoTemplateProps {
   form: UseFormReturnType<TodoPageFormValues>
@@ -46,7 +52,11 @@ export interface TodoTemplateProps {
     id: string
     title: string | null
     mode: string | null
-    todos: TodoType[]
+    todos: (TodoType & {
+      modal?: {
+        opened?: boolean
+      }
+    })[]
   }[]
 
   onEditSection?: ({ id }: { id: string | null }) => void
@@ -54,11 +64,10 @@ export interface TodoTemplateProps {
   onEdit?: HandleEditTodoType
   onCreate?: HandleCreateTodoType
   onDelete?: HandleDeleteTodoType
-
+  onToggleModal?: HandleToggleTodoModalType
   onCreateSection?: () => void
-
-  onChangeTodoStatus?: TodoItemProps['onChangeTodoStatus']
-
+  onChangeTodoStatus?: HandleChangeTodoStatus
+  onUpdateTodo?: ({ todo }: { todo: TodoType }) => void
   onDragEnd?: (value: DropResult) => void
 }
 
@@ -77,7 +86,9 @@ function TodoTemplate(_props: TodoTemplateProps) {
     onDelete,
     onCreateSection,
     onChangeTodoStatus,
-    onDragEnd
+    onDragEnd,
+    onToggleModal,
+    onUpdateTodo
   } = useProps('TodoTemplate', defaultProps, _props)
 
   return (
@@ -142,7 +153,25 @@ function TodoTemplate(_props: TodoTemplateProps) {
                                               onChangeTodoStatus={
                                                 onChangeTodoStatus
                                               }
+                                              onToggleModal={onToggleModal}
                                             />
+
+                                            <Modal
+                                              opened={
+                                                todo?.modal?.opened || false
+                                              }
+                                              onClose={() =>
+                                                onToggleModal?.({
+                                                  todo,
+                                                  opened: false
+                                                })
+                                              }
+                                              {...TodoDetailModalDefaultProps}>
+                                              <TodoDetailModal
+                                                todo={todo}
+                                                onUpdateTodo={onUpdateTodo}
+                                              />
+                                            </Modal>
                                           </div>
                                         </li>
                                       )
@@ -244,7 +273,25 @@ function TodoTemplate(_props: TodoTemplateProps) {
                                             onChangeTodoStatus={
                                               onChangeTodoStatus
                                             }
+                                            onToggleModal={onToggleModal}
                                           />
+
+                                          <Modal
+                                            opened={
+                                              todo?.modal?.opened || false
+                                            }
+                                            onClose={() =>
+                                              onToggleModal?.({
+                                                todo,
+                                                opened: false
+                                              })
+                                            }
+                                            {...TodoDetailModalDefaultProps}>
+                                            <TodoDetailModal
+                                              todo={todo}
+                                              onUpdateTodo={onUpdateTodo}
+                                            />
+                                          </Modal>
                                         </div>
                                       </li>
                                     )
